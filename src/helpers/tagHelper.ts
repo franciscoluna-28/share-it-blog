@@ -18,6 +18,13 @@ export async function getTagsByArticles(articleEntries: CollectionEntry<"article
   return articlesTags;
 }
 
+export async function getTagNamesByArticle(articleEntry: CollectionEntry<"articles">){
+  const tagEntries = await getEntries(articleEntry.data.tags);
+  const tags = tagEntries.map(te => te.data.name);
+  
+  return tags;
+}
+
 export async function getTagNamesByArticles(articleEntries: CollectionEntry<"articles">[]){
   const articlesTagNames = new Map<string, string[]>();
   for (const article of articleEntries) {
