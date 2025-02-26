@@ -1,5 +1,5 @@
 import { defineCollection, z, reference } from 'astro:content'
-import { glob } from 'astro/loaders'
+import { glob, file } from 'astro/loaders'
 
 const authorSchema = z.object({
   name: z.string(),
@@ -21,6 +21,12 @@ const articleSchema = z.object({
   author: reference("authors"),
 })
 
+const tagSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string()
+})
+
 const articles = defineCollection({
     loader:  glob({ pattern: '**/*.md', base: "./src/content/articles" }),
   schema: articleSchema,
@@ -31,7 +37,13 @@ const authors = defineCollection({
   schema: authorSchema,
 })
 
+const tags = defineCollection({
+  loader: file("./src/content/catalogs/tags.yaml"),
+  schema: tagSchema
+})
+
 export const collections = {
   articles,
-  authors
+  authors,
+  tags
 }
