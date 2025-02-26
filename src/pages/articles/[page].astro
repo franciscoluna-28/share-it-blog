@@ -3,7 +3,7 @@ import { type CollectionEntry, getCollection } from 'astro:content'
 import Layout from '@layouts/Layout.astro'
 import Pagination from '@components/Pagination.astro'
 import ContentCard from '@components/ContentCard.astro'
-import { getTagNamesByArticles } from '@helpers/tagHelper'
+import { getTagNamesByEntries } from '@helpers/tagHelper'
 
 export async function getStaticPaths({
   paginate,
@@ -33,7 +33,7 @@ const {
   lastPage: number
 }
 
-const tagNamesByArticle = await getTagNamesByArticles(articles);
+const tagNamesByArticle = await getTagNamesByEntries(articles);
 ---
 
 <Layout title='Artículos | Share IT' showBackButton>

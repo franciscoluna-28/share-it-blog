@@ -3,7 +3,7 @@ import Layout from '@layouts/Layout.astro'
 import { getCollection } from 'astro:content'
 import { resources } from 'src/utils/resources'
 import ContentCard from '@components/ContentCard.astro'
-import { getTagNamesByArticles } from '@helpers/tagHelper'
+import { getTagNamesByEntries } from '@helpers/tagHelper'
 
 export async function getStaticPaths() {
   const tags = await getCollection("tags")
@@ -24,7 +24,7 @@ const articles = await getCollection('articles', ({ data }) => {
   return !data.draft && data.tags.some(t => t.id === tag.id)
 })
 
-const tagNamesByArticle = await getTagNamesByArticles(articles);
+const tagNamesByArticle = await getTagNamesByEntries(articles);
 
 const contentItems = [
   ...filteredResources.map((item) => ({

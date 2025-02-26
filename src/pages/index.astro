@@ -5,7 +5,7 @@ import Layout from '@layouts/Layout.astro'
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content'
 import { resources } from 'src/utils/resources'
-import {getTagNamesByArticles} from "@helpers/tagHelper"
+import {getTagNamesByEntries} from "@helpers/tagHelper"
 
 const articles = await getCollection('articles', ({ data }) => {
   return !data.draft
@@ -15,7 +15,7 @@ const latestArticles = articles
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 2)
 
-const tagNamesByArticle = await getTagNamesByArticles(latestArticles);
+const tagNamesByArticle = await getTagNamesByEntries(latestArticles);
 const latestResources = resources.slice(0, 2)
 
 export const prerender = true

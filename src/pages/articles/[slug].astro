@@ -1,6 +1,6 @@
 ---
 import CollaboratorCard from '@components/CollaboratorCard.astro'
-import { getTagNamesByArticle } from '@helpers/tagHelper'
+import { getTagNamesByEntry } from '@helpers/tagHelper'
 import Layout from '@layouts/Layout.astro'
 import { getCollection, getEntry, render } from 'astro:content'
 import { formatDate } from 'src/utils/dates'
@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 
 const { article } = Astro.props
 const author = await getEntry(article.data.author)
-const tagNames = await getTagNamesByArticle(article);
+const tagNames = await getTagNamesByEntry(article);
 const { Content } = await render(article)
 ---
 
