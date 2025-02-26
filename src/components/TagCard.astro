@@ -1,17 +1,19 @@
 ---
+import { type CollectionEntry } from 'astro:content'
 import type TagCount from '@models/TagCount'
 
 interface Props {
+  id: string,
   name: string,
   description: string,
   count: TagCount
 }
 
-const { name, count } = Astro.props
+const { id, name, count } = Astro.props
 ---
 
 <a
-  href={`/tags/${name.toLowerCase()}`}
+  href={`/tags/${id}`}
   class='block p-6 bg-gray-800 rounded-lg border border-primary hover:border-[#83D6E7] transition-colors'
 >
   <h2 class='text-2xl font-bold text-primary mb-2'>{name}</h2>

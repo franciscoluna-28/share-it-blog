@@ -36,6 +36,7 @@ articles
     {
       tags.map((tag) => (
         <TagCard
+          id={tag.id}
           name={tag.data.name}
           description={tag.data.description}
           count={tagCount.get(tag.id) || DEFAULT_COUNT}
