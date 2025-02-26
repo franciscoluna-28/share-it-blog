@@ -27,6 +27,15 @@ const tagSchema = z.object({
   description: z.string()
 })
 
+const resourceSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  url: z.string(),
+  date: z.string().transform((str) => new Date(str + 'T00:00:00')),
+  tags: z.array(reference("tags")),
+})
+
 const articles = defineCollection({
     loader:  glob({ pattern: '**/*.md', base: "./src/content/articles" }),
   schema: articleSchema,
@@ -42,8 +51,14 @@ const tags = defineCollection({
   schema: tagSchema
 })
 
+const resources = defineCollection({
+  loader: file("./src/content/catalogs/resources.yaml"),
+  schema: resourceSchema
+})
+
 export const collections = {
   articles,
   authors,
-  tags
+  tags,
+  resources
 }
