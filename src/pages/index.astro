@@ -4,19 +4,23 @@ import ContentCard from '@components/ContentCard.astro'
 import Layout from '@layouts/Layout.astro'
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content'
-import { resources } from 'src/utils/resources'
 import {getTagNamesByEntries} from "@helpers/tagHelper"
 
 const articles = await getCollection('articles', ({ data }) => {
   return !data.draft
 })
 
+const resources = await getCollection("resources");
+
 const latestArticles = articles
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 2)
-
 const tagNamesByArticle = await getTagNamesByEntries(latestArticles);
-const latestResources = resources.slice(0, 2)
+
+const latestResources = resources
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 2)
+const tagNamesByResources = await getTagNamesByEntries(latestResources);
 
 export const prerender = true
 ---
@@ -99,11 +103,11 @@ export const prerender = true
             <ContentCard
               target='_blank'
               rel='noopener noreferrer'
-              title={resource.title}
-              description={resource.description}
-              tags={[resource.tag]}
-              date={resource.date}
-              href={resource.slug}
+              title={resource.data.title}
+              description={resource.data.description}
+              tags={tagNamesByResources.get(resource.id)}
+              date={resource.data.date}
+              href={resource.data.url}
             />
           ))}
         </div>
