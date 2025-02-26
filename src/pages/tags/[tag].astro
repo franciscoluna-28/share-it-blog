@@ -1,37 +1,30 @@
 ---
 import Layout from '@layouts/Layout.astro'
 import { getCollection } from 'astro:content'
-import { getAllTags } from 'src/utils/tags'
-import { resources as allResources } from 'src/utils/resources'
+import { resources } from 'src/utils/resources'
 import ContentCard from '@components/ContentCard.astro'
+import { getTagNamesByArticles } from '@helpers/tagHelper'
 
 export async function getStaticPaths() {
-  // const resources = await getCollection('resources')
-  const articles = await getCollection('articles')
-  const tags = getAllTags(
-    allResources.map((resource) => ({
-      ...resource,
-      data: { ...resource, type: 'resource' as const },
-      slug: resource.slug,
-    })),
-    articles
-  )
+  const tags = await getCollection("tags")
 
   return tags.map((tag) => ({
-    params: { tag: tag.name.toLowerCase() },
-    props: { tag: tag.name },
+    params: { tag: tag.id },
+    props: { tag: tag.data },
   }))
 }
 
 const { tag } = Astro.props
 
-const filteredResources = allResources.filter(
-  (resource) => resource.category?.toLowerCase() === tag.toLowerCase()
+const filteredResources = resources.filter(
+  (resource) => resource.tag === tag.id
 )
 
 const articles = await getCollection('articles', ({ data }) => {
-  return !data.draft && data.category?.toLowerCase() === tag.toLowerCase()
+  return !data.draft && data.tags.some(t => t.id === tag.id)
 })
+
+const tagNamesByArticle = await getTagNamesByArticles(articles);
 
 const contentItems = [
   ...filteredResources.map((item) => ({
@@ -45,12 +38,12 @@ const contentItems = [
 ]
 ---
 
-<Layout title={`${tag} | Tags`} showBackButton>
+<Layout title={`${tag.name} | Tags`} showBackButton>
   <h1 class='text-4xl font-bold mb-8 text-white'>
-    Contenido en {tag}
+    Contenido en {tag.name}
     <span class='text-lg text-gray-400 ml-2'>({contentItems.length})</span>
   </h1>
-
+  <p class='text-gray-300 my-2'>{tag.description}</p>
   {
     contentItems.length > 0 ? (
       <div class='space-y-12'>
@@ -63,8 +56,8 @@ const contentItems = [
                   date={article.data.date}
                   title={article.data.title}
                   description={article.data.description}
-                  category={article.data.category}
-                  href={`/articles/${article.slug}`}
+                  tags={tagNamesByArticle.get(article.id)}
+                  href={`/articles/${article.id}`}
                 />
               ))}
             </div>
@@ -85,7 +78,7 @@ const contentItems = [
                   rel='noopener noreferrer'
                   title={resource.title}
                   description={resource.description}
-                  category={resource.category}
+                  tags={[resource.tag]}
                   date={resource.date}
                   href={resource.slug}
                 />
