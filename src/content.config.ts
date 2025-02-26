@@ -17,7 +17,7 @@ const articleSchema = z.object({
   description: z.string(),
   date: z.string().transform((str) => new Date(str + 'T00:00:00')),
   draft: z.boolean().default(false),
-  category: z.string(),
+  tags: z.array(reference("tags")),
   author: reference("authors"),
 })
 

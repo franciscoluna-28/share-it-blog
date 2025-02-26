@@ -11,16 +11,13 @@
 - id: dev
   name: Desarrollo
   description: Artículos relacionados con Desarrollo de software en general.
-- id: dev
-  name: Desarrollo
-  description: Artículos relacionados con Desarrollo de software en general.
 - id: java
   name: Java
   description: Artículos relacionados con Java.
 - id: js
   name: JavaScript
   description: Artículos relacionados con JavaScript.
-- id: psicology
+- id: psychology
   name: Psicología 
   description: Artículos relacionados con psicología y productividad en IT.
 - id: py
