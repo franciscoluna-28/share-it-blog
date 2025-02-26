@@ -69,7 +69,7 @@ export const prerender = true
             additionalClass='md:h-[200px] h-[220px]'
             title={article.data.title}
             description={article.data.description}
-            tags={tagNamesByArticle.get(article.id) || []}
+            tags={tagNamesByArticle.get(article.id)}
             date={article.data.date}
             href={`/articles/${article.id}`}
           />
