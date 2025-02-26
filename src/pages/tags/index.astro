@@ -2,17 +2,18 @@
 import TagCard from "@components/TagCard.astro";
 import Layout from "@layouts/Layout.astro";
 import { getCollection } from "astro:content";
-import { resources } from "src/utils/resources";
 import type TagCount from "@models/TagCount"
 
 const DEFAULT_COUNT = Object.freeze<TagCount>({ articleCount: 0, resourceCount: 0, totalCount: 0})
 
 const articles = await getCollection("articles", ({ data }) => !data.draft);
+const resources = await getCollection("resources");
 const tags = await getCollection("tags");
 const tagCount = new Map<string, TagCount>();
+
 resources
-  .map(r => r.tag)
-  .filter(t => t)
+  .flatMap(r => r.data.tags)
+  .map(t => t.id)
   .forEach((tagId) => {
     const current = tagCount.get(tagId) || DEFAULT_COUNT;
     tagCount.set(tagId, { ...current, resourceCount: current.resourceCount + 1, totalCount: current.totalCount + 1 });
