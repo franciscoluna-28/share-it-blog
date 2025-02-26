@@ -3,7 +3,7 @@ interface Resource {
   description: string
   slug: string
   date: Date
-  category: string
+  tag: string
 }
 
 export const resources: Resource[] = [
@@ -13,7 +13,7 @@ export const resources: Resource[] = [
       'Guías, tutoriales, libros y todo recurso para aprender y mejorar con Java',
     slug: 'https://github.com/eliasvelazquezdev/share-it-resources/tree/main/lenguajes/java',
     date: new Date('2025-01-14'),
-    category: 'Java',
+    tag: 'java',
   },
   {
     title: 'CSS',
@@ -21,7 +21,7 @@ export const resources: Resource[] = [
       'Guías, tutoriales, libros y todo recurso para aprender y mejorar en CSS.',
     slug: 'https://github.com/eliasvelazquezdev/share-it-resources/tree/main/lenguajes/css',
     date: new Date('2025-01-15'),
-    category: 'CSS',
+    tag: 'css',
   },
   {
     title: 'JavaScript',
@@ -29,7 +29,7 @@ export const resources: Resource[] = [
       'Descubre proyectos, tutoriales y recursos para aprender JavaScript.',
     slug: 'https://github.com/eliasvelazquezdev/share-it-resources/tree/main/lenguajes/javascript',
     date: new Date('2024-12-12'),
-    category: 'JavaScript',
+    tag: 'js',
   },
   {
     title: 'Python',
@@ -37,6 +37,6 @@ export const resources: Resource[] = [
       'Descubre proyectos, tutoriales y recursos para aprender Python.',
     slug: 'https://github.com/eliasvelazquezdev/share-it-resources/tree/main/lenguajes/python',
     date: new Date('2024-12-10'),
-    category: 'Python',
+    tag: 'py',
   },
 ]
