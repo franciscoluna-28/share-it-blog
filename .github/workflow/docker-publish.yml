@@ -1,8 +1,6 @@
 name: Docker
 
 on:
-  schedule:
-    - cron: '27 14 * * *'
   push:
     branches: [ "master", "feature/*", "bugfix/*", "hotfix/*" ]
     tags: [ 'v*.*.*' ]
@@ -28,7 +26,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-
       - name: Install cosign
         if: github.event_name != 'pull_request'
         uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 #v3.5.0
@@ -52,13 +49,25 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Build Docker image (without push)
+        if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/heads/feature/') || startsWith(github.ref, 'refs/heads/bugfix/') || startsWith(github.ref, 'refs/heads/hotfix/')) && github.ref != 'refs/heads/master' && !startsWith(github.ref, 'refs/tags/')
+        id: build-only
+        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
+        with:
+          context: .
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
       - name: Build and push Docker image
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/'))
         id: build-and-push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           context: .
-          push: ${{ github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')) }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
