@@ -86,8 +86,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          # Output extra info to confirm it ran
-          outputs: type=docker,dest=/tmp/image-build-only.tar
 
       - name: Verify build-only image
         if: steps.build-type.outputs.type == 'build-only'
