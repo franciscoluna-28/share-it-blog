@@ -2,38 +2,46 @@
 import { AnimatedText } from '@components/AnimatedText/AnimatedText'
 import ContentCard from '@components/ContentCard.astro'
 import Layout from '@layouts/Layout.astro'
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content'
-import { resources } from 'src/utils/resources'
+import {getTagNamesByEntries} from "@helpers/tagHelper"
 
 const articles = await getCollection('articles', ({ data }) => {
   return !data.draft
 })
 
+const resources = await getCollection("resources");
+
 const latestArticles = articles
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 2)
-const latestResources = resources.slice(0, 2)
+const tagNamesByArticle = await getTagNamesByEntries(latestArticles);
+
+const latestResources = resources
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 2)
+const tagNamesByResources = await getTagNamesByEntries(latestResources);
 
 export const prerender = true
 ---
 
 <Layout title='Share IT Blog'>
-  <div
-    class='text-center mb-16 px-4 py-12 bg-gradient-to-b from-gray-800 to-gray-900 rounded-lg'
+  <div class="grid min-[1000px]:grid-cols-2 place-items-center mb-16">
+    <div
+    class='text-center min-[1000px]:text-start px-4 py-12'
   >
     <AnimatedText client:load />
-    <p class='text-2xl md:text-4xl text-gray-300 max-w-2xl mx-auto mt-2'>
+    <p class='text-3xl md:text-4xl text-gray-300 max-w-2xl mx-auto mt-2'>
       Bienvenido a <span
-        class='font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#314aa9] via-primary to-[#83d6e7]'
+        class='font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#4b6ef8] via-primary to-[#94e7f8]'
         >Share IT</span
       >.
     </p>
     <p class='text-gray-300 mx-auto m-4 max-w-[600px]'>
-  
       Somos una comunidad unida por el deseo de aprender, compartir conocimientos y crecer juntos en el ámbito tecnológico.
       <span class='font-bold'>Este es un rincón para intercambiar conocimientos</span> y experiencias que nos han guiado y ayudado en <span class='font-bold'>nuestro recorrido</span>.
     </p>
-    <div class='flex sm:flex-row justify-center gap-4 flex-col'>
+    <div class='flex sm:flex-row justify-center min-[1000px]:justify-start gap-4 flex-col'>
       <a
         href='/articles/1'
         class='flex justify-center items-center bg-[#314aa9] hover:bg-[#2f3fca] text-white px-6 py-2 rounded-full'
@@ -47,6 +55,13 @@ export const prerender = true
         Acerca de nosotros
       </a>
     </div>
+    </div>
+
+    <Image
+      src='/images/Frame.png'
+      width={300}
+      height={300}
+      alt='Hero Image'/>
   </div>
 
   <section class='mb-12'>
@@ -58,9 +73,9 @@ export const prerender = true
             additionalClass='md:h-[200px] h-[220px]'
             title={article.data.title}
             description={article.data.description}
-            category={article.data.category}
+            tags={tagNamesByArticle.get(article.id)}
             date={article.data.date}
-            href={`/articles/${article.slug}`}
+            href={`/articles/${article.id}`}
           />
         ))
       }
@@ -88,11 +103,11 @@ export const prerender = true
             <ContentCard
               target='_blank'
               rel='noopener noreferrer'
-              title={resource.title}
-              description={resource.description}
-              category={resource.category}
-              date={resource.date}
-              href={resource.slug}
+              title={resource.data.title}
+              description={resource.data.description}
+              tags={tagNamesByResources.get(resource.id)}
+              date={resource.data.date}
+              href={resource.data.url}
             />
           ))}
         </div>

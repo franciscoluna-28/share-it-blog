@@ -1,19 +1,22 @@
 ---
 import CollaboratorCard from '@components/CollaboratorCard.astro'
+import { getTagNamesByEntry } from '@helpers/tagHelper'
 import Layout from '@layouts/Layout.astro'
-import { getCollection } from 'astro:content'
+import { getCollection, getEntry, render } from 'astro:content'
 import { formatDate } from 'src/utils/dates'
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles')
   return articles.map((article) => ({
-    params: { slug: article.slug },
+    params: { slug: article.id },
     props: { article },
   }))
 }
 
 const { article } = Astro.props
-const { Content } = await article.render()
+const author = await getEntry(article.data.author)
+const tagNames = await getTagNamesByEntry(article);
+const { Content } = await render(article)
 ---
 
 <Layout title={article.data.title} showBackButton>
@@ -25,12 +28,18 @@ const { Content } = await article.render()
           >{formatDate(article.data.date.toISOString())}</time
         >
       </div>
-      <div class='bg-[#314aa9] text-violet-200 mt-2 px-3 py-1 rounded-full text-sm'>
-        {article.data.category}
+      <div class="flex gap-2 flex-wrap">
+        {
+          tagNames.map((tag) => (
+            <span class="bg-[#314aa9] text-violet-200 mt-2 px-3 py-1 rounded-full text-sm">
+              {tag}
+            </span>
+          ))
+        }
       </div>
       <p class='text-gray-300 mt-2'>{article.data.description}</p>
     </header>
     <Content />
-    <CollaboratorCard {...article.data.author} />
+    <CollaboratorCard {...author.data} />
   </article>
 </Layout>

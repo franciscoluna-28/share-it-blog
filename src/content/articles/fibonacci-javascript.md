@@ -3,15 +3,10 @@ title: 'Sucesión de Fibonacci con JavaScript'
 description: 'Qué es la sucesión de Fibonacci y cómo podemos resolverla con Recursividad y el Bucle for.'
 date: '2024-04-30'
 draft: false
-category: 'JavaScript'
-author:
-  name: 'Victor Quiñones'
-  avatar: 'https://i.ibb.co/Dzd33xD/profile-perfil.jpg'
-  role: 'Frontend Developer'
-  github: 'https://github.com/vctorqui'
-  linkedin: 'https://linkedin.com/in/victorqui'
-  website: 'https://victorqui-portfolio.netlify.app/'
-  about: 'Especializado en crear interfaces web eficientes, intuitivas y escalables, he descubierto la importancia y el poder transformador de la tecnología en nuestra vida cotidiana.'
+tags: 
+  - dev
+  - js
+author: 01-victor-q
 ---
 
 ---

@@ -3,15 +3,9 @@ title: 'Data Engineering 1 - Introducción'
 description: '¿Qué es Data Engineering? ¿Qué hace un/a Data Engineer? ¿Qué conocimientos técnicos se necesitan? ¿Dónde capacitarse?'
 date: '2025-01-19'
 draft: false
-category: 'DataEngineering'
-author:
-  name: 'Elias Velazquez'
-  avatar: 'https://avatars.githubusercontent.com/u/87088600?v=4'
-  role: 'Data Engineer'
-  github: 'https://github.com/eliasvelazquezdev'
-  linkedin: 'https://linkedin.com/in/eliassvelazquez'
-  website: 'https://evelazquez.dev/'
-  about: 'En algún punto decidí que pelearme con archivos Excel y CSV sería mi pan de cada día. Intento aprender y capacitarme constantemente para pelearme menos.'
+tags: 
+    - data-engineering
+author: 02-elias-v
 ---
 
 ---

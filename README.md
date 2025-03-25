@@ -46,9 +46,20 @@ Para ejecutar este proyecto localmente, sigue estos pasos:
 
 ## 📄 Añadir Artículos y Recursos
 
+### Artículos
 Para añadir nuevos artículos y recursos al blog, sigue estos pasos:
 
-1. Crea un nuevo archivo Markdown en el directorio `src/content/articles/` con la siguiente estructura:
+1. Añade a o utiliza un tag de los que puedes encontrar en el archivo `src/content/catalogs/tags.yaml` que tienen la siguiente estructura:
+
+   ```yaml
+   - id: tag-id
+     name: Tag name.
+     description: Tag description.
+
+   Contenido del tag en formato YAML.
+   ```
+   El archivo YAML contiene todos los tags, solo añade uno más a la lista si no existe o utiliza uno de los existentes con el formato anteriormente mostrado.
+2. Crea un nuevo archivo Markdown en el directorio `src/content/articles/` con la siguiente estructura:
 
    ```typescript
    ---
@@ -56,53 +67,47 @@ Para añadir nuevos artículos y recursos al blog, sigue estos pasos:
    description: 'Descripción corta del artículo'
    date: 'YYYY-MM-DD'
    draft: false
-   author: 'Nombre del Autor'
-   tags: 'etiqueta'
+   author: '0N-nombre-a'
+   tags: 
+    - tag-id
+    - tag-id
    ---
    Contenido del artículo en formato Markdown.
 
    ```
 
-2. Guarda el archivo y el nuevo artículo aparecerá automáticamente en el blog. ✨
+3. Guarda el archivo y el nuevo artículo aparecerá automáticamente en el blog. ✨
 
-Para añadir nuevos recursos, crea un nuevo objeto en el archivo `src/utils/resources.ts` con las siguientes propiedades:
+### Recursos
+Para añadir nuevos recursos, añade un nuevo elemento a la lista de recursos que se encuentra en el archivo `src/content/catalogs/resources.yaml` con las siguientes propiedades:
 
-```typescript
-interface Resource {
-  title: string
-  description: string
-  slug: string
-  date: Date
-  category: string
-}
-
-export const resources: Resource[] = [
-  {
-    title: 'Nuevo Recurso',
-    description: 'Descripción del nuevo recurso.',
-    slug: 'URL del recurso',
-    date: new Date('YYYY-MM-DD'),
-    category: 'Categoría del recurso',
-  },
-]
+```yaml
+- id: res-id-res
+  title: Resource name.
+  description: Resource description.
+  url: Resource ShareIT Community GitHub URL.
+  date: 'yyyy-MM-dd'
+  tags:
+    - tag-id
+    - tag-id
+Contenido del recurso en formato YAML.
 ```
+El archivo YAML contiene todos los recurso, solo añade uno más a la lista con el formato anteriormente mostrado.
 
 ## 👥 Añadir Autores
 
-Para aparecer en la sección de Autores, añade tus datos dentro de los archivos Markdown de artículos (`src/content/articles/`). Asegúrate de incluir la información del autor en el siguiente formato:
+Para aparecer en la sección de Autores, añade tus datos creando un nuevo archivo `.yaml` dentro del directorio de autores (`src/content/authors/`). Asegúrate de incluir la información del autor en el siguiente formato:
 
-```markdown
----
-author:
-  name: 'Nombre del Autor'
-  avatar: 'URL del Avatar'
-  role: 'Rol del Autor'
-  github: 'URL de GitHub'
-  linkedin: 'URL de LinkedIn'
-  website: 'URL del porfolio web'
-  about: 'Descripción corta del Autor'
----
+```yaml
+name: 'Nombre del Autor'
+avatar: 'URL del Avatar'
+role: 'Rol del Autor'
+github: 'URL de GitHub'
+linkedin: 'URL de LinkedIn'
+website: 'URL del porfolio web'
+about: 'Descripción corta del Autor'
 ```
+El nombre del archivo actualmente usa como prefijo un número ordinal, primer nombre y primera letra de tu apellido, todo separado por guión medio: `0N-nombre-a`, por ejemplo, `01-john-d` (John Doe).
 
 **¡Gracias por visitar Share IT! 🙌**
 
@@ -117,6 +122,8 @@ Dentro de tu proyecto Astro, verás las siguientes carpetas y archivos:
 ├── src/
 │   ├── content/
 │   │   ├── articles/
+│   │   ├── authors/
+│   │   ├── catalogs/
 │   ├── layouts/
 │   │   └── Layout.astro
 │   └── pages/
